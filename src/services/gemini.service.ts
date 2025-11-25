@@ -45,15 +45,25 @@ export class GeminiService {
       
       console.log('Upload response received:', uploadResponse);
 
-      // Robustly get the file object.
+      if (!uploadResponse) {
+        throw new Error('Upload failed: Empty response from server.');
+      }
+
+      // Robustly get the file object. Handle cases where it's nested or direct.
+      // Use optional chaining to safely access properties.
       const uploadedFile = uploadResponse.file || (uploadResponse as any);
 
-      if (!uploadedFile || !uploadedFile.uri) {
-        throw new Error('Upload failed: Server returned an invalid response structure.');
+      if (!uploadedFile) {
+        throw new Error('Upload failed: Could not parse file metadata from response.');
       }
-      
+
       const fileUri = uploadedFile.uri;
       const fileName = uploadedFile.name; 
+      
+      if (!fileUri || !fileName) {
+        throw new Error(`Upload failed: Missing URI or Name in response. URI: ${fileUri}, Name: ${fileName}`);
+      }
+
       console.log(`File uploaded successfully. URI: ${fileUri}, Name: ${fileName}`);
 
       // 2. Wait for processing
