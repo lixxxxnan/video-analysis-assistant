@@ -1,5 +1,5 @@
 {
-  "name": "视频预览助手",
+  "name": "video-analysis-assistant",
   "description": "上传视频，AI自动生成逐字稿、摘要与内容概览。",
   "requestFramePermissions": []
 }
