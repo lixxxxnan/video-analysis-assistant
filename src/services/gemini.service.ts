@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { GoogleGenAI, Type, Schema } from '@google/genai';
 
@@ -24,7 +23,17 @@ export class GeminiService {
   private ai: GoogleGenAI;
 
   constructor() {
-    this.ai = new GoogleGenAI({ apiKey: process.env['API_KEY'] });
+    let apiKey = '';
+    try {
+      // Defensive check for process.env to avoid runtime crashes in browser
+      if (typeof process !== 'undefined' && process.env) {
+        apiKey = process.env['API_KEY'] || '';
+      }
+    } catch (e) {
+      console.warn('Could not access process.env. API_KEY might be missing.');
+    }
+    
+    this.ai = new GoogleGenAI({ apiKey: apiKey });
   }
 
   /**
