@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -32,6 +33,23 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #e01e3a;
     }
+
+    /* Print specific styles for PDF Export */
+    @media print {
+      @page {
+        margin: 15mm;
+        size: A4;
+      }
+      body {
+        background-color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      /* Hide scrollbars during print */
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    }
   </style>
 <script type="importmap">
 {
@@ -64,6 +82,25 @@
       <div class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg max-w-md text-center text-xs text-yellow-800 opacity-80">
         如果您长时间看到此页面，请确保使用 <code>npm start</code> 运行项目，<br>而不是直接打开 index.html 文件。
       </div>
+
+      <!-- Global Error Handler Display -->
+      <script>
+        window.onerror = function(msg, url, line, col, error) {
+          const div = document.createElement('div');
+          div.style.position = 'fixed';
+          div.style.bottom = '0';
+          div.style.left = '0';
+          div.style.width = '100%';
+          div.style.padding = '10px';
+          div.style.backgroundColor = '#fee2e2';
+          div.style.color = '#991b1b';
+          div.style.fontSize = '12px';
+          div.style.borderTop = '1px solid #f87171';
+          div.innerText = 'Startup Error: ' + msg;
+          document.body.appendChild(div);
+          return false;
+        };
+      </script>
     </div>
   </app-root>
 </body>

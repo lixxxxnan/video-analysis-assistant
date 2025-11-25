@@ -58,13 +58,8 @@ export class GeminiService {
         throw new Error('Upload failed: Empty response from server.');
       }
 
-      // Robustly get the file object. Handle cases where it's nested or direct.
-      // Use optional chaining to safely access properties.
-      const uploadedFile = uploadResponse.file || (uploadResponse as any);
-
-      if (!uploadedFile) {
-        throw new Error('Upload failed: Could not parse file metadata from response.');
-      }
+      // The uploadResponse is the file metadata object itself in the new SDK.
+      const uploadedFile = uploadResponse;
 
       const fileUri = uploadedFile.uri;
       const fileName = uploadedFile.name; 
