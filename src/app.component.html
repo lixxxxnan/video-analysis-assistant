@@ -1,0 +1,68 @@
+
+<div class="min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8 bg-gray-50">
+  <!-- Header -->
+  <header class="w-full max-w-3xl mb-8 text-center">
+    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600 text-white mb-4 shadow-lg shadow-blue-200">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+      </svg>
+    </div>
+    <h1 class="text-3xl font-bold text-gray-900 tracking-tight">视频智能助手</h1>
+    <p class="mt-2 text-gray-600">一键上传视频，AI自动生成图文笔记、智能摘要与核心亮点。</p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="w-full max-w-3xl space-y-6">
+    
+    <!-- Input Section -->
+    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <app-analysis-form 
+        [isLoading]="isLoading()"
+        [loadingText]="loadingText()" 
+        (analyze)="onAnalyze($event)">
+      </app-analysis-form>
+    </section>
+
+    <!-- Error Message -->
+    @if (error()) {
+      <div class="p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 flex items-start gap-3 animate-fade-in">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mt-0.5 shrink-0">
+          <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+        </svg>
+        <div>
+          <p class="font-semibold">分析失败</p>
+          <p class="text-sm mt-1 opacity-90">{{ error() }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Result Section -->
+    @if (result()) {
+      <section class="animate-slide-up">
+        <app-result-card 
+          [data]="result()!"
+          [videoFile]="currentFile()">
+        </app-result-card>
+      </section>
+    }
+
+    <!-- Loading State (Visual Skeleton) -->
+    @if (isLoading()) {
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4 animate-pulse">
+        <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div class="space-y-2 pt-4">
+          <div class="h-4 bg-gray-200 rounded w-full"></div>
+          <div class="h-4 bg-gray-200 rounded w-full"></div>
+          <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+        </div>
+      </div>
+    }
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-12 text-center text-gray-400 text-sm">
+    <p>Powered by Gemini 2.5 Flash</p>
+  </footer>
+</div>
